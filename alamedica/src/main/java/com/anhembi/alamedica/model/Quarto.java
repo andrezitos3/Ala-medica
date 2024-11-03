@@ -28,4 +28,6 @@ public class Quarto {
     @JoinColumn(name = "id_paciente", referencedColumnName = "id")
     @JsonIgnoreProperties("quarto")
     private Paciente paciente;
+
+    
 }

@@ -9,22 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anhembi.alamedica.model.Enfermeiro;
-import com.anhembi.alamedica.repository.EnfermeiroRepository;
+import com.anhembi.alamedica.service.EnfermeiroService;
 
 @RestController
 @RequestMapping("/enfermeiros")
 public class EnfermeiroController {
 
     @Autowired
-    private EnfermeiroRepository repo;
+    private EnfermeiroService service;
 
-    @SuppressWarnings("rawtypes")
     @GetMapping
-    public ResponseEntity getAllEnfermeiros(){
+    public ResponseEntity<List<Enfermeiro>> getAllEnfermeiros(){
         
-        List<Enfermeiro> allEnfermeiros = repo.findAll();
+        List<Enfermeiro> enfermeiros = service.getAllEnfermeiros();
 
-        return ResponseEntity.ok(allEnfermeiros);
+        return ResponseEntity.ok(enfermeiros);
     }
-
 }
