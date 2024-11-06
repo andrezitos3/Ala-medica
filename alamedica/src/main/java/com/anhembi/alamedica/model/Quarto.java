@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,5 +30,9 @@ public class Quarto {
     @JsonIgnoreProperties("quarto")
     private Paciente paciente;
 
+    @ManyToOne
+    @JoinColumn(name = "id_ala_medica")
+    @JsonIgnoreProperties("quartos")
+    private Alamedica alaMedica;
     
 }

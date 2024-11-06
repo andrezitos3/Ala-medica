@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anhembi.alamedica.model.Enfermeiro;
-import com.anhembi.alamedica.service.EnfermeiroService;
+import com.anhembi.alamedica.model.Quarto;
+import com.anhembi.alamedica.service.QuartoService;
 
 @RestController
-@RequestMapping("/enfermeiros")
-public class EnfermeiroController {
+@RequestMapping("/quartos")
+public class QuartoController {
 
     @Autowired
-    private EnfermeiroService service;
+    private QuartoService service;
 
     @GetMapping
-    public ResponseEntity<List<Enfermeiro>> getAll(){
-        
-        List<Enfermeiro> enfermeiros = service.getAllEnfermeiros();
+    public ResponseEntity <List<Quarto>> getAll(){
 
-        return ResponseEntity.ok(enfermeiros);
+        List<Quarto> quartos = service.getAllQuartos();
+
+        return ResponseEntity.ok(quartos);
     }
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -33,11 +32,6 @@ public class Paciente {
     private String enfermidade;
 
     private String alergia;
-
-    @ManyToOne
-    @JoinColumn(name = "id_enfermeiro")
-    @JsonIgnoreProperties("pacientes")
-    private Enfermeiro enfermeiro;
 
     @OneToOne
     @JoinColumn(name = "id_quarto", referencedColumnName = "id")
