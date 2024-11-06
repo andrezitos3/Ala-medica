@@ -6,7 +6,7 @@ Utilizamos a tecnologia Java (spring framework) para realizar o projeto.
 
 Integrantes:
 
-Andre Lui
-Leonardo Oziro
-Bruno Querobin
-Renan Simões
+- Andre Lui
+- Leonardo Oziro
+- Bruno Querobin
+- Renan Simões
