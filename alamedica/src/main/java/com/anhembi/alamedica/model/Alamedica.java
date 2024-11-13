@@ -10,8 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -19,12 +21,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Alamedica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "O andar é obrigatório.")
     private int andar;
 
     @OneToMany(mappedBy = "alaMedica")
@@ -34,5 +38,4 @@ public class Alamedica {
     @OneToMany(mappedBy = "alaMedica")
     @JsonIgnoreProperties("alaMedica")
     private List<Quarto> quartos;
-
 }

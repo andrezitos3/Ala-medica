@@ -1,5 +1,7 @@
 package com.anhembi.alamedica.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,12 +27,15 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "O nome é obrigatório.")
     private String nome;
 
     private boolean alta = false;
 
-    private String data_de_nascimento;
+    @NotNull(message = "A data de nascimento é obrigatória.")
+    private LocalDate data_de_nascimento;
 
+    @NotBlank(message = "A enfermidade é obrigatória.")
     private String enfermidade;
 
     private String alergia;
