@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,4 +52,14 @@ public class PacienteController {
 
         return new ResponseEntity<>(optional_paciente.get(), HttpStatus.CREATED);
     }
+
+    // PUT: Atualiza um paciente existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Paciente> update(@PathVariable Integer id, @RequestBody Paciente pacienteAtualizado) {
+        Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, pacienteAtualizado);
+        return optionalPaciente.map(ResponseEntity::ok)
+                               .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    
 }
