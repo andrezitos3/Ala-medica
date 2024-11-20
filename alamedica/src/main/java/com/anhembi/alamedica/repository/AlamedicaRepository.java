@@ -6,4 +6,5 @@ import com.anhembi.alamedica.model.Alamedica;
 
 public interface AlamedicaRepository extends JpaRepository<Alamedica, Integer> {
     
+    boolean existsByAndar(int andar);
 }

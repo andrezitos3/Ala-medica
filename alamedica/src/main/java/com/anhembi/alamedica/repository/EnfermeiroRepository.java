@@ -6,4 +6,5 @@ import com.anhembi.alamedica.model.Enfermeiro;
 
 public interface EnfermeiroRepository extends JpaRepository <Enfermeiro, Integer> {
 
+    boolean existsByAlaMedicaId(Integer alaMedicaId);
 }

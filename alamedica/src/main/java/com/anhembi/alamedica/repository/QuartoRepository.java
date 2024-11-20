@@ -7,4 +7,5 @@ import com.anhembi.alamedica.model.Quarto;
 public interface QuartoRepository extends JpaRepository<Quarto, Integer>{
 
     boolean existsByNumero(String numero); 
+    boolean existsByAlaMedicaId(Integer alaMedicaId);
 }

@@ -30,7 +30,7 @@ public class Paciente {
     @NotBlank(message = "O nome é obrigatório.")
     private String nome;
 
-    private boolean alta;
+    private boolean internado;
 
     @NotNull(message = "A data de nascimento é obrigatória.")
     private LocalDate data_de_nascimento;
@@ -45,7 +45,7 @@ public class Paciente {
     @JsonIgnoreProperties("paciente")
     private Quarto quarto;
 
-    public boolean getAlta(){
-        return this.alta;
+    public boolean getInternado(){
+        return this.internado;
     }
 }

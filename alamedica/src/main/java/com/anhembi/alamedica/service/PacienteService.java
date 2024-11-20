@@ -37,7 +37,7 @@ public class PacienteService {
         }
 
         // Regra: O paciente deve iniciar com alta = false
-        paciente.setAlta(false);
+        paciente.setInternado(false);
 
         // Regra: Verificar se o quarto está disponível
         if (paciente.getQuarto() != null) {
@@ -74,7 +74,7 @@ public class PacienteService {
         // atualização dos dados
 
         paciente_existente.setNome(paciente_atualizado.getNome());
-        paciente_existente.setAlta(paciente_atualizado.getAlta());
+        paciente_existente.setInternado(paciente_atualizado.getInternado());
         paciente_existente.setData_de_nascimento(paciente_atualizado.getData_de_nascimento());
         paciente_existente.setEnfermidade(paciente_atualizado.getEnfermidade());
         paciente_existente.setAlergia(paciente_atualizado.getAlergia());

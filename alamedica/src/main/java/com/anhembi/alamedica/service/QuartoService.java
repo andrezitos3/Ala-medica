@@ -49,6 +49,16 @@ public class QuartoService {
         // regra: criar quarto sempre vazio (sem paciente)
         quarto.setPaciente(null);
 
+         // Regra: A ala médica é obrigatória 
+         if (quarto.getAlaMedica() == null || !alamedica_repo.existsById(quarto.getAlaMedica().getId())) {
+            return Optional.empty();
+        }
+
+        // Regra: Verifica se o quarto já está associado a um paciente
+        if (quarto.getPaciente() != null && !paciente_repo.existsById(quarto.getPaciente().getId())) {
+            return Optional.empty();
+        }
+
 
         return Optional.of(repo.save(quarto));
     }
@@ -64,9 +74,9 @@ public class QuartoService {
 
         Quarto quarto_existente = quarto_optional.get();
 
-        // atualiza o número do quarto e verifica se ele é único
+        // verifica se o numero cadastrado não é igual ao número do quarto existente e se o numero cadastrado existe no banco de dados
 
-        if (quarto_existente.getNumero().equals(quarto_atualizado.getNumero()) && repo.existsByNumero(quarto_atualizado.getNumero())){
+        if (!quarto_existente.getNumero().equals(quarto_atualizado.getNumero()) && repo.existsByNumero(quarto_atualizado.getNumero())){
             return Optional.empty();
         }
 
