@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anhembi.alamedica.model.Enfermeiro;
+import com.anhembi.alamedica.repository.AlamedicaRepository;
 import com.anhembi.alamedica.repository.EnfermeiroRepository;
 
 @Service
@@ -15,9 +16,18 @@ public class EnfermeiroService {
     @Autowired
     private EnfermeiroRepository repo;
 
-    // get
+    @Autowired
+    private AlamedicaRepository alamedica_repo;
+
+    // get todos os enfermeiros
     public List<Enfermeiro> getAllEnfermeiros(){
         return (List<Enfermeiro>) repo.findAll();
+    }
+
+    // get por id
+
+    public Optional<Enfermeiro> getEnfermeiroPorId(Integer id){
+        return repo.findById(id);
     }
 
     // post

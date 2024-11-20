@@ -89,7 +89,7 @@ public class PacienteService {
             if (novoQuartoOptional.isPresent()){
                 Quarto novo_quarto = novoQuartoOptional.get();
 
-                // ve se o quarto solicitado já possui ou paciente ou não (se o quarto está ocupado)
+                // ve se o quarto solicitado já possui um paciente ou não (se o quarto está ocupado)
                 if (novo_quarto.getPaciente() == null || novo_quarto.getPaciente().getId().equals(id)){
                     
                     // desassocia o paciente do quarto antigo se ele existir, altera o quarto para vazio e salva ele no banco de dados
@@ -115,5 +115,25 @@ public class PacienteService {
         return Optional.of(repo.save(paciente_existente));
     }
 
-    
+     // DELETE: Remover um paciente, liberando o quarto, se ocupado
+     public boolean deletarPaciente(Integer id) {
+
+        Optional<Paciente> pacienteOptional = repo.findById(id);
+
+        if (pacienteOptional.isEmpty()) {
+            return false;
+        }
+        
+        Paciente paciente = pacienteOptional.get();
+
+        // Regra: Desocupar o quarto ao deletar o paciente
+        if (paciente.getQuarto() != null) {
+            Quarto quarto = paciente.getQuarto();
+            quarto.setPaciente(null);
+            quarto_repo.save(quarto);
+        }
+
+        repo.deleteById(id);
+        return true;
+    }
 }
