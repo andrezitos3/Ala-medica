@@ -36,7 +36,7 @@ public class PacienteService {
             return Optional.empty();
         }
 
-        // Regra: O paciente deve iniciar com alta = false
+        // Regra: O paciente deve iniciar com internado = false
         paciente.setInternado(false);
 
         // Regra: Verificar se o quarto está disponível

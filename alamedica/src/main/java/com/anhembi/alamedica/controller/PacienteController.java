@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anhembi.alamedica.dto.PacienteDTO;
 import com.anhembi.alamedica.model.Paciente;
 import com.anhembi.alamedica.service.PacienteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -43,7 +46,9 @@ public class PacienteController {
     }
 
     @PostMapping
-    public ResponseEntity<Paciente> register(@RequestBody Paciente paciente){
+    public ResponseEntity<Paciente> register(@RequestBody @Valid PacienteDTO pacienteDto){
+
+        Paciente paciente = pacienteDto.toPaciente();
 
         Optional<Paciente> optional_paciente = service.cadastrarPaciente(paciente);
 
@@ -53,10 +58,17 @@ public class PacienteController {
 
         return new ResponseEntity<>(optional_paciente.get(), HttpStatus.CREATED);
     }
+    
+
 
     // PUT: Atualiza um paciente existente
     @PutMapping("/{id}")
-    public ResponseEntity<Paciente> update(@PathVariable Integer id, @RequestBody Paciente pacienteAtualizado) {
+    public ResponseEntity<Paciente> update(@PathVariable Integer id, @RequestBody @Valid PacienteDTO pacienteDto) {
+
+        Paciente pacienteAtualizado = pacienteDto.toPaciente();
+
+        pacienteAtualizado.setId(id);
+
         Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, pacienteAtualizado);
         return optionalPaciente.map(ResponseEntity::ok)
                                .orElseGet(() -> ResponseEntity.badRequest().build());

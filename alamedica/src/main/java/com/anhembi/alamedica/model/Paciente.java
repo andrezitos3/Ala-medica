@@ -48,4 +48,13 @@ public class Paciente {
     public boolean getInternado(){
         return this.internado;
     }
+
+    public Paciente(String nome, LocalDate data_de_nascimento, String enfermidade, String alergia, Quarto quarto) {
+        this.nome = nome;
+        this.data_de_nascimento = data_de_nascimento;
+        this.enfermidade = enfermidade;
+        this.alergia = alergia;
+        this.quarto = quarto;
+        this.internado = false; // Inicializa como não internado
+    }
 }
