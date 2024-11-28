@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.anhembi.alamedica.model.Alamedica;
 import com.anhembi.alamedica.service.AlamedicaService;
@@ -52,4 +53,25 @@ public class AlaMedicaControllerTest {
         assertEquals(ala1, response.getBody());
     }
 
+    @Test
+    @DisplayName("Deve verificaro caso de sucesso da função delete")
+    public void DeletarAla_AlaValida_RetornaNoContent() {
+
+        when(alamedicaService.deletarAlaMedica(1)).thenReturn(true);
+
+        ResponseEntity<Void> response = alamedicaController.delete(1);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Deve verificaro caso de falha da função delete")
+    public void DeletarAla_AlaInvalida_RetornaBadRequest() {
+
+        when(alamedicaService.deletarAlaMedica(1)).thenReturn(false);
+
+        ResponseEntity<Void> response = alamedicaController.delete(1);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
 }
