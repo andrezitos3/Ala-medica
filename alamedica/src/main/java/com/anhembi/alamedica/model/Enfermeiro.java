@@ -31,4 +31,10 @@ public class Enfermeiro {
     @JsonIgnoreProperties("enfermeiros")
     private Alamedica alaMedica;
 
+    public Enfermeiro(String nome, Alamedica ala_medica){
+        this.nome = nome;
+        this.alaMedica = ala_medica;
+    }
+
+    public Enfermeiro() {}
 }

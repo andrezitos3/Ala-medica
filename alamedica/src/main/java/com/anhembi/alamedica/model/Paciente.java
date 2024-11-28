@@ -57,4 +57,7 @@ public class Paciente {
         this.quarto = quarto;
         this.internado = false; // Inicializa como não internado
     }
+    
+
+    public Paciente(){}
 }

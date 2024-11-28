@@ -38,5 +38,15 @@ public class Quarto {
     @JsonIgnoreProperties("quartos")
     @NotNull(message = "A ala médica é obrigatória.")
     private Alamedica alaMedica;
+
+    
+    // vazio só pra nao dar erro no teste
+    public Quarto(){}
+
+    public Quarto(String numero, Paciente paciente, Alamedica ala_medica){
+        this.numero = numero;
+        this.paciente  = paciente;
+        this.alaMedica = ala_medica;
+    }
     
 }

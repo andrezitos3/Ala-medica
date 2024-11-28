@@ -3,6 +3,7 @@ package com.anhembi.alamedica.dto;
 import java.time.LocalDate;
 
 import com.anhembi.alamedica.model.Paciente;
+import com.anhembi.alamedica.model.Quarto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,13 +29,13 @@ public class PacienteDTO {
 
     private Integer quarto_id;
 
-    public Paciente toPaciente() {
-        return new Paciente(
-            nome,
-            data_de_nascimento,
-            enfermidade,
-            alergia,
-            null // O quarto será associado no Service após validação.
-        );
+    public Paciente toPaciente(Quarto quarto) {
+    return new Paciente(
+        nome,
+        data_de_nascimento,
+        enfermidade,
+        alergia,
+        quarto
+    );
     }
 }

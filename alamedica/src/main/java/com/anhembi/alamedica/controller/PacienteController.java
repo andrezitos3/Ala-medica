@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anhembi.alamedica.dto.PacienteDTO;
 import com.anhembi.alamedica.model.Paciente;
+import com.anhembi.alamedica.model.Quarto;
+import com.anhembi.alamedica.repository.QuartoRepository;
 import com.anhembi.alamedica.service.PacienteService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,10 @@ public class PacienteController {
 
     @Autowired
     private PacienteService service;
+
+    @Autowired
+    private QuartoRepository quarto_repo;
+
 
     @GetMapping
     public ResponseEntity<List<Paciente>> getAll(){
@@ -48,7 +54,21 @@ public class PacienteController {
     @PostMapping
     public ResponseEntity<Paciente> register(@RequestBody @Valid PacienteDTO pacienteDto){
 
-        Paciente paciente = pacienteDto.toPaciente();
+         // Busca o Quarto pelo ID, se fornecido no DTO
+        Quarto quarto = null;
+
+        if (pacienteDto.getQuarto_id() != null) {
+            Optional<Quarto> quarto_optional = quarto_repo.findById(pacienteDto.getQuarto_id());
+
+            if (quarto_optional.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
+
+            quarto = quarto_optional.get();
+        }
+
+        // Converte o DTO para entidade Paciente
+        Paciente paciente = pacienteDto.toPaciente(quarto);
 
         Optional<Paciente> optional_paciente = service.cadastrarPaciente(paciente);
 
@@ -65,13 +85,31 @@ public class PacienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Paciente> update(@PathVariable Integer id, @RequestBody @Valid PacienteDTO pacienteDto) {
 
-        Paciente pacienteAtualizado = pacienteDto.toPaciente();
+          // Busca o Quarto pelo ID, se fornecido no DTO
+          Quarto novo_quarto = null;
 
-        pacienteAtualizado.setId(id);
+          if (pacienteDto.getQuarto_id() != null) {
+              Optional<Quarto> quarto_optional = quarto_repo.findById(pacienteDto.getQuarto_id());
+  
+              if (quarto_optional.isEmpty()){
+                  return ResponseEntity.badRequest().build();
+              }
+  
+              novo_quarto = quarto_optional.get();
+          }
+  
+          // Converte o DTO para entidade Paciente
+          Paciente paciente_atualizado = pacienteDto.toPaciente(novo_quarto);
 
-        Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, pacienteAtualizado);
-        return optionalPaciente.map(ResponseEntity::ok)
-                               .orElseGet(() -> ResponseEntity.badRequest().build());
+        
+
+        Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, paciente_atualizado, novo_quarto);
+        
+        if (optionalPaciente.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        return new ResponseEntity<>(optionalPaciente.get(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
