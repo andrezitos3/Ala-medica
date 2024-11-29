@@ -37,6 +37,7 @@ public class EnfermeiroControllerTest {
         enfermeiro2 = new Enfermeiro(2, "Leonardo", null);
     }
 
+    //Testes getAll
     @Test
     @DisplayName("Deve retornar todos os enfermeiros")
     public void RetornarTodosEnfermeiros_retornaTodosEnfermeiros() {
@@ -48,6 +49,7 @@ public class EnfermeiroControllerTest {
         assertEquals(2, response.getBody().size());
     }
 
+    //Testes getById
     @Test
     @DisplayName("Deve retornar o enfermeiro especificado pelo ID")
     public void RetornarEnfermeiroPeloId_IdValido_RetornaEnfermeiroPeloId() {
@@ -70,6 +72,7 @@ public class EnfermeiroControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    //Testes delete
     @Test
     @DisplayName("Deve verificaro caso de sucesso da função delete")
     public void DeletarEnfermeiro_EnfermeiroValido_RetornaNoContent() {

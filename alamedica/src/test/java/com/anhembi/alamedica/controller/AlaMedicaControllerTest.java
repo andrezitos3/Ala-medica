@@ -37,6 +37,7 @@ public class AlaMedicaControllerTest {
         ala2 = new Alamedica(2, 3, Collections.emptyList(), Collections.emptyList());
     }
 
+    //Testes getAll
     @Test
     @DisplayName("Deve retornar todas as alas")
     public void RetornarTodasAlas_retornaTodasAsAlas() {
@@ -48,6 +49,7 @@ public class AlaMedicaControllerTest {
         assertEquals(2, response.getBody().size());
     }
 
+    //Testes getById
     @Test
     @DisplayName("Deve retornar a ala especificada pelo ID")
     public void RetornarAlaPeloId_IdValido_RetornaAlaPeloId() {
@@ -70,6 +72,7 @@ public class AlaMedicaControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    //Testes delete
     @Test
     @DisplayName("Deve verificaro caso de sucesso da função delete")
     public void DeletarAla_AlaValida_RetornaNoContent() {
