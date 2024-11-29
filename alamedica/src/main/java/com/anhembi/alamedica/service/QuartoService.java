@@ -54,12 +54,6 @@ public class QuartoService {
             return Optional.empty();
         }
 
-        // Regra: Verifica se o quarto já está associado a um paciente
-        if (quarto.getPaciente() != null && !paciente_repo.existsById(quarto.getPaciente().getId())) {
-            return Optional.empty();
-        }
-
-
         return Optional.of(repo.save(quarto));
     }
     
@@ -77,14 +71,14 @@ public class QuartoService {
         // verifica se o numero cadastrado não é igual ao número do quarto existente e se o numero cadastrado existe no banco de dados
 
         if (!quarto_existente.getNumero().equals(quarto_atualizado.getNumero()) && repo.existsByNumero(quarto_atualizado.getNumero())){
-            return Optional.empty();
+            return Optional.empty(); // quarto duplicado
         }
 
         quarto_existente.setNumero(quarto_atualizado.getNumero());
 
-        // atualizar a ala médica, se houver a alteração
+        // atualizar a ala médica, se houver a alteração (e ver se ela é diferente)
 
-        if (quarto_atualizado.getAlaMedica() != null){
+        if (quarto_atualizado.getAlaMedica() != null && !quarto_atualizado.getAlaMedica().equals(quarto_existente.getAlaMedica())){
 
             Optional<Alamedica> alaMedica_optional = alamedica_repo.findById(quarto_atualizado.getAlaMedica().getId());
 
@@ -93,7 +87,7 @@ public class QuartoService {
                 quarto_existente.setAlaMedica(alaMedica_optional.get());
 
             } else {
-                return Optional.empty();
+                return Optional.empty(); // ala médica nao foi encontrada
             }
         }
 
@@ -105,17 +99,27 @@ public class QuartoService {
 
             if (paciente_optional.isPresent()){
 
-                quarto_existente.setPaciente(paciente_optional.get());
+                Paciente paciente_atualizado = paciente_optional.get();
+
+                // Verifica se o paciente já está associado a outro quarto
+                if (paciente_atualizado.getQuarto() != null && !paciente_atualizado.getQuarto().getId().equals(id)) {
+                    return Optional.empty(); // Paciente já alocado em outro quarto
+                }
+
+
+                quarto_existente.setPaciente(paciente_atualizado);
 
             } else {
 
-                return Optional.empty();
+                return Optional.empty(); // paciente não foi encontrado
             }
         } else {
 
             // desassociar paciente caso tenha remoção (requisição nula no campo do paciente)
-
-            quarto_existente.setPaciente(null);
+            if (quarto_existente.getPaciente() != null) {
+                quarto_existente.getPaciente().setQuarto(null); // Remove a associação inversa
+                quarto_existente.setPaciente(null);
+            }
 
         }
 
@@ -147,6 +151,11 @@ public class QuartoService {
 
             paciente_repo.save(paciente);
 
+        }
+
+        if (quarto.getAlaMedica() != null){
+
+            return false; // quarto ainda associado a uma ala médica
         }
 
         repo.deleteById(id);

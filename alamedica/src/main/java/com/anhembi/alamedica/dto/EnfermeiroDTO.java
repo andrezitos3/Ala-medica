@@ -4,7 +4,11 @@ import com.anhembi.alamedica.model.Alamedica;
 import com.anhembi.alamedica.model.Enfermeiro;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class EnfermeiroDTO {
 
     @NotBlank(message = "O nome é obrigatório.")

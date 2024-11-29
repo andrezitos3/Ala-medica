@@ -83,7 +83,7 @@ public class PacienteService {
 
             // ve se o quarto solicitado já possui um paciente ou não (se o quarto está
             // ocupado)
-            if (novo_quarto.getPaciente() != null || !novo_quarto.getPaciente().getId().equals(id)) {
+            if (novo_quarto.getPaciente() != null) {
 
                 return Optional.empty();
             }

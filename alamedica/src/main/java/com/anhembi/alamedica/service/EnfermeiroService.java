@@ -42,11 +42,22 @@ public class EnfermeiroService {
             return Optional.empty();
         }
 
-        // verifica se a ala médica informada não existe
-        if ((enfermeiro.getAlaMedica() != null && 
-        !alamedica_repo.existsById(enfermeiro.getAlaMedica().getId()))){
+        // verifica se a ala medica existe
+        Optional<Alamedica> alamedica_optional = alamedica_repo.findById(enfermeiro.getAlaMedica().getId());
+
+        if (alamedica_optional.isEmpty()){
             return Optional.empty();
         }
+
+        Alamedica ala_medica = alamedica_optional.get();
+
+        // verificar se a ala médica já está cheia
+        if (ala_medica.getEnfermeiros().size() >= 9){
+            return Optional.empty(); // capacidade máxima atingida
+        }
+
+        // associar o enfermeiro à ala médica
+        enfermeiro.setAlaMedica(ala_medica);
 
         return Optional.of(repo.save(enfermeiro));
     }
@@ -73,12 +84,9 @@ public class EnfermeiroService {
         // atualiza a ala medica, se for fornecida
 
         if (enfermeiro_atualizado.getAlaMedica() != null){
-            Optional<Alamedica> alaMedicaOptional = alamedica_repo.findById(enfermeiro_atualizado.getAlaMedica().getId());
-            if (alaMedicaOptional.isPresent()) {
-                enfermeiro_existente.setAlaMedica(alaMedicaOptional.get());
-            } else {
-                return Optional.empty(); // Regra: Não atualizar para uma ala inexistente
-            }
+
+            enfermeiro_existente.setAlaMedica(enfermeiro_atualizado.getAlaMedica());
+
         }
 
         return Optional.of(repo.save(enfermeiro_existente));

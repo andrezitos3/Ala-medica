@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -21,7 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class Alamedica {
 
     @Id
@@ -38,4 +36,12 @@ public class Alamedica {
     @OneToMany(mappedBy = "alaMedica")
     @JsonIgnoreProperties("alaMedica")
     private List<Quarto> quartos;
+
+    public Alamedica() {}
+
+    public Alamedica(int andar, List<Enfermeiro> enfermeiros, List<Quarto> quartos){
+        this.andar = andar;
+        this.enfermeiros = enfermeiros;
+        this.quartos = quartos;
+    }
 }
