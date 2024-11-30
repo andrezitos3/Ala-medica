@@ -92,7 +92,7 @@ public class PacienteController {
               Optional<Quarto> quarto_optional = quarto_repo.findById(pacienteDto.getQuarto_id());
   
               if (quarto_optional.isEmpty()){
-                  return ResponseEntity.badRequest().build();
+                  return ResponseEntity.notFound().build();
               }
   
               novo_quarto = quarto_optional.get();

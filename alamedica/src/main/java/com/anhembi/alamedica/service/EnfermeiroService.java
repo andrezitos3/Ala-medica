@@ -69,7 +69,7 @@ public class EnfermeiroService {
         Optional<Enfermeiro> enfermeiro_optional = repo.findById(id);
 
         if (enfermeiro_optional.isEmpty()){
-            return Optional.empty();
+            return Optional.empty(); // enfermeiro não encontrado
         }
 
         Enfermeiro enfermeiro_existente = enfermeiro_optional.get();
@@ -85,12 +85,37 @@ public class EnfermeiroService {
 
         if (enfermeiro_atualizado.getAlaMedica() != null){
 
-            enfermeiro_existente.setAlaMedica(enfermeiro_atualizado.getAlaMedica());
+            Integer nova_ala_id = enfermeiro_atualizado.getAlaMedica().getId();
 
+            Optional<Alamedica> nova_ala_optional = alamedica_repo.findById(nova_ala_id);
+
+            if (nova_ala_optional.isEmpty()){
+                return Optional.empty(); // nova ala não encontrada
+            }
+
+            Alamedica nova_ala_medica = nova_ala_optional.get();
+
+            // verifica se a nova ala tem espaço
+            if (nova_ala_medica.getEnfermeiros().size() >= 9){
+                return Optional.empty();
+            }
+
+            // remove o enfermeiro da ala anterior, se existir
+            if (enfermeiro_existente.getAlaMedica() != null){
+                Alamedica ala_anterior = enfermeiro_existente.getAlaMedica();
+
+                ala_anterior.getEnfermeiros().remove(enfermeiro_existente);
+
+                alamedica_repo.save(ala_anterior); // atualiza a ala anterior no banco de dados
+            }
+
+            // associar o enfermeiro a nova ala médica
+            enfermeiro_existente.setAlaMedica(nova_ala_medica);
+            nova_ala_medica.getEnfermeiros().add(enfermeiro_existente);
+            alamedica_repo.save(nova_ala_medica);
         }
 
         return Optional.of(repo.save(enfermeiro_existente));
-
 
     }
 
@@ -104,6 +129,17 @@ public class EnfermeiroService {
             return false; // não permite excluir um enferemeiro inexistente
         }
 
+        Enfermeiro enfermeiro = enfermeiro_optional.get();
+
+        // remove o enfermeiro da ala médica, se houver
+        if (enfermeiro.getAlaMedica() != null){
+
+            Alamedica ala_medica = enfermeiro.getAlaMedica();
+            ala_medica.getEnfermeiros().remove(enfermeiro);
+            alamedica_repo.save(ala_medica); // atualiza a ala médica no banco
+
+        }
+        // exclui o enfermeiro
         repo.deleteById(id);
 
         return true;
