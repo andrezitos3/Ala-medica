@@ -69,6 +69,10 @@ public class PacienteControllerTest {
 
         // Verificando o resultado
         assertEquals(2, response.getBody().size());
+
+        // Verifica se o conteúdo está correto
+        assertEquals(paciente1, response.getBody().get(0));
+        assertEquals(paciente2, response.getBody().get(1));
     }
 
     // Testes getById
@@ -225,27 +229,61 @@ public class PacienteControllerTest {
     }
 
     // teste sucesso com quarto null
-    // @Test
-    // @DisplayName("Deve atualizar um paciente sem quarto associado")
-    // public void atualizarPaciente_PacienteSemQuarto_AtualizaPaciente() {
+    @Test
+    @DisplayName("Deve atualizar um paciente sem quarto associado")
+    public void atualizarPaciente_PacienteSemQuarto_AtualizaPaciente() {
 
-    //     // Configura o DTO de paciente sem quarto_id
-    //     pacienteDto.setQuarto_id(null);
+        // Configura o DTO de paciente sem quarto_id
+        pacienteDto.setQuarto_id(null);
 
-    //     // Converte o DTO para entidade Paciente sem quarto
-    //     Paciente pacienteAtualizado = pacienteDto.toPaciente(null);
+        // Converte o DTO para entidade Paciente sem quarto
+        Paciente pacienteAtualizado = pacienteDto.toPaciente(null);
 
-    //     // Simula o sucesso ao atualizar o paciente
-    //     when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.any(Quarto.class)))
-    //             .thenReturn(Optional.of(pacienteAtualizado));
+        // Simula o sucesso ao atualizar o paciente
+        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.isNull()))
+                .thenReturn(Optional.of(pacienteAtualizado));
 
-    //     // Chama o método de atualização do controlador
-    //     ResponseEntity<Paciente> response = controller.update(1, pacienteDto);
+        // Chama o método de atualização do controlador
+        ResponseEntity<Paciente> response = controller.update(1, pacienteDto);
 
-    //     // Verifica se o paciente retornado é o esperado
-    //     assertEquals(pacienteAtualizado, response.getBody());
-    // }
+        // Verifica se o paciente retornado é o esperado
+        assertEquals(pacienteAtualizado, response.getBody());
+    }
     
     // teste falha com quarto empty
+    @Test
+    @DisplayName("Deve retornar Not Found quando o quarto não for encontrado")
+    public void atualizarPaciente_QuartoInvalido_RetornaBadRequest() {
+
+        // Configura o DTO de paciente com quarto_id inválido
+        pacienteDto.setQuarto_id(999); // ID de quarto que não existe
+
+        // Simula a busca do quarto que não existe
+        when(quarto_repo.findById(999)).thenReturn(Optional.empty());
+
+        // Chama o método de atualização do controlador
+        ResponseEntity<Paciente> response = controller.update(1, pacienteDto);
+
+        // Verifica se o status é NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
     // teste falha service recusou paciente
+    @Test
+    @DisplayName("Deve retornar Bad Request quando o serviço recusar a atualização do paciente")
+    public void atualizarPaciente_ServicoRecusou_RetornaBadRequest() {
+
+        // Simula o quarto válido
+        when(quarto_repo.findById(pacienteDto.getQuarto_id())).thenReturn(Optional.of(quarto));
+
+        // Simula que o serviço recusou a atualização (retorna Optional.empty)
+        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.any(Quarto.class)))
+            .thenReturn(Optional.empty());
+
+        // Chama o método de atualização do controlador
+        ResponseEntity<Paciente> response = controller.update(1, pacienteDto);
+
+        // Verifica se o status é BAD_REQUEST
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
 }
