@@ -112,8 +112,11 @@ public class AlamedicaController {
 
         // Valida e obtém os objetos dos quartos, se IDs forem fornecidos
         if (ala_medica_Dto.getQuartos_ids() != null && !ala_medica_Dto.getQuartos_ids().isEmpty()) {
+
             for (Integer quartoId : ala_medica_Dto.getQuartos_ids()) {
+
                 Optional<Quarto> quarto_optional = quarto_repo.findById(quartoId);
+                
                 if (quarto_optional.isEmpty()) {
                     return ResponseEntity.notFound().build(); // Quarto não encontrado
                 }
