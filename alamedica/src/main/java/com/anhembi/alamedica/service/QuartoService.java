@@ -89,6 +89,10 @@ public class QuartoService {
             } else {
                 return Optional.empty(); // ala médica nao foi encontrada
             }
+        } else if (quarto_atualizado.getAlaMedica() != null && quarto_atualizado.getAlaMedica().equals(quarto_existente.getAlaMedica())){
+
+            quarto_existente.setAlaMedica(quarto_atualizado.getAlaMedica());
+
         }
 
         // atualizar o paciente assosciado, se houver a alteração
