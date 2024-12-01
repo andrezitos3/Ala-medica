@@ -47,6 +47,10 @@ public class AlaMedicaControllerTest {
         ResponseEntity<List<Alamedica>> response = controller.getAll();
 
         assertEquals(2, response.getBody().size());
+                
+        // Verifica se o conteúdo está correto
+        assertEquals(ala1, response.getBody().get(0));
+        assertEquals(ala2, response.getBody().get(1));
     }
 
     //Testes getById
