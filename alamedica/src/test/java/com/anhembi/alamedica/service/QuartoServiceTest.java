@@ -510,4 +510,6 @@ public class QuartoServiceTest {
         assertTrue(resultado, "Deve retornar verdadeiro se o quarto for deletado com sucesso.");
         verify(repo).deleteById(1);
     }
+
+    
 }

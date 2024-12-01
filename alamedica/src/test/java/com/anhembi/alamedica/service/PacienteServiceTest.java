@@ -187,7 +187,7 @@ public class PacienteServiceTest {
 
     //teste sucesso paciente com um quarto muda para outro quarto
     @Test
-    @DisplayName("")
+    @DisplayName("teste sucesso paciente com um quarto muda para outro quarto")
     public void atualizarPaciente_PacienteComQuarto_AtualizaPacienteComQuartoNovo() {
 
         // Configuração inicial
