@@ -8,21 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.anhembi.alamedica.model.Alamedica;
 import com.anhembi.alamedica.repository.AlamedicaRepository;
-import com.anhembi.alamedica.repository.EnfermeiroRepository;
-import com.anhembi.alamedica.repository.QuartoRepository;
 
 @Service
 public class AlamedicaService {
 
     @Autowired
     private AlamedicaRepository repo;
-
-    @Autowired 
-    private QuartoRepository quarto_repo;
-
-    @Autowired 
-    private EnfermeiroRepository enfermeiro_repo;
-
     // get 
     public List<Alamedica> getAlasMedicas(){
         return (List<Alamedica>) repo.findAll();
@@ -47,6 +38,14 @@ public class AlamedicaService {
         boolean andar_existente = repo.existsByAndar(ala_medica.getAndar());
 
         if (andar_existente){
+            return Optional.empty();
+        }
+
+        if (ala_medica.getQuartos() != null && ala_medica.getQuartos().size() > 5){
+            return Optional.empty();
+        }
+
+        if (ala_medica.getEnfermeiros() != null && ala_medica.getEnfermeiros().size() > 9){
             return Optional.empty();
         }
 
@@ -75,6 +74,20 @@ public class AlamedicaService {
             alamedica_existente.setAndar(alamedica_atualizada.getAndar());
         }
 
+        if (alamedica_atualizada.getQuartos() != null){
+            if (alamedica_atualizada.getQuartos().size() > 5){
+                return Optional.empty();
+            }
+            alamedica_existente.setQuartos(alamedica_atualizada.getQuartos());
+        }
+
+        if (alamedica_atualizada.getEnfermeiros() != null){
+            if (alamedica_atualizada.getEnfermeiros().size() > 9){
+                return Optional.empty();
+            }
+            alamedica_existente.setEnfermeiros(alamedica_atualizada.getEnfermeiros());
+        }
+
         return Optional.of(repo.save(alamedica_existente));
     }
 
@@ -91,8 +104,8 @@ public class AlamedicaService {
         Alamedica ala_medica = alamedica_optional.get();
 
         // não deleta se tiver quartos ou enfermeiros associados a ala
-        boolean temQuarto = quarto_repo.existsByAlaMedicaId(ala_medica.getId());
-        boolean temEnfermeiro = enfermeiro_repo.existsByAlaMedicaId(ala_medica.getId());
+        boolean temQuarto = !ala_medica.getQuartos().isEmpty();
+        boolean temEnfermeiro = !ala_medica.getEnfermeiros().isEmpty();
 
         if (temQuarto || temEnfermeiro){
             return false;

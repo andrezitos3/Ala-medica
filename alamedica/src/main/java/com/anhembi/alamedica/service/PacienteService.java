@@ -49,9 +49,6 @@ public class PacienteService {
             // Associar o paciente ao quarto
             quarto.setPaciente(paciente);
             paciente.setQuarto(quarto);
-        } else {
-            // Retornar vazio se o quarto não existe
-            return Optional.empty();
         }
 
         return Optional.of(repo.save(paciente));
