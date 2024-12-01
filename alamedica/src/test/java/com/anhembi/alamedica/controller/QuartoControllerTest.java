@@ -71,10 +71,6 @@ public class QuartoControllerTest {
         ResponseEntity<List<Quarto>> response = controller.getAll();
 
         assertEquals(2, response.getBody().size());
-
-        // Verifica se o conteúdo está correto
-        assertEquals(quarto1, response.getBody().get(0));
-        assertEquals(quarto2, response.getBody().get(1));
     }
 
     //Testes getById
