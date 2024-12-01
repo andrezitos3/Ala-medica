@@ -101,7 +101,9 @@ public class PacienteController {
           // Converte o DTO para entidade Paciente
           Paciente paciente_atualizado = pacienteDto.toPaciente(novo_quarto);
 
-        
+        if (pacienteDto.isInternado()){
+            paciente_atualizado.setInternado(true);
+        }
 
         Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, paciente_atualizado, novo_quarto);
         
