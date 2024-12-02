@@ -218,7 +218,7 @@ public class PacienteControllerTest {
         Paciente pacienteAtualizado = pacienteDto.toPaciente(quarto);
 
         // Simula o sucesso ao atualizar o paciente
-        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.any(Quarto.class)))
+        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class)))
                 .thenReturn(Optional.of(pacienteAtualizado));
 
         // Chama o método de atualização do controlador
@@ -240,7 +240,7 @@ public class PacienteControllerTest {
         Paciente pacienteAtualizado = pacienteDto.toPaciente(null);
 
         // Simula o sucesso ao atualizar o paciente
-        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.isNull()))
+        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class)))
                 .thenReturn(Optional.of(pacienteAtualizado));
 
         // Chama o método de atualização do controlador
@@ -277,7 +277,7 @@ public class PacienteControllerTest {
         when(quarto_repo.findById(pacienteDto.getQuarto_id())).thenReturn(Optional.of(quarto));
 
         // Simula que o serviço recusou a atualização (retorna Optional.empty)
-        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class), Mockito.any(Quarto.class)))
+        when(service.atualizarPaciente(Mockito.anyInt(), Mockito.any(Paciente.class)))
             .thenReturn(Optional.empty());
 
         // Chama o método de atualização do controlador

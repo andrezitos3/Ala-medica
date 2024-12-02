@@ -109,24 +109,24 @@ public class PacienteServiceTest {
         assertEquals(paciente1, result.get()); // Verifica se o paciente cadastrado é o esperado
     }
 
-    //teste sucesso cadastrar paciente sem quarto (Não possivel no momento) da pra usar pra verificar se ele é empty caso não seja possivel fazer isso mesmo
-    // @Test
-    // @DisplayName("Deve cadastrar um paciente sem um quarto com sucesso")
-    // public void cadastrarPaciente_QuartoNull_RetornaPacienteSemQuarto() {
+    //teste sucesso cadastrar paciente sem quarto
+    @Test
+    @DisplayName("Deve cadastrar um paciente sem um quarto com sucesso")
+    public void cadastrarPaciente_QuartoNull_RetornaPacienteSemQuarto() {
         
-    //     // Configuração inicial
-    //     paciente1.setId(null); // Deve ser null para simular um novo cadastro
+        // Configuração inicial
+        paciente1.setId(null); // Deve ser null para simular um novo cadastro
     
-    //     // Simulações dos repositórios
-    //     when(repo.save(paciente1)).thenReturn(paciente1);
+        // Simulações dos repositórios
+        when(repo.save(paciente1)).thenReturn(paciente1);
     
-    //     // Execução do método
-    //     Optional<Paciente> result = service.cadastrarPaciente(paciente1);
+        // Execução do método
+        Optional<Paciente> result = service.cadastrarPaciente(paciente1);
     
-    //     // Verificações
-    //     assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
-    //     assertEquals(paciente1, result.get()); // Verifica se o paciente cadastrado é o esperado
-    // }
+        // Verificações
+        assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
+        assertEquals(paciente1, result.get()); // Verifica se o paciente cadastrado é o esperado
+    }
 
 
     //teste falha paciente_Id ja está cadastrado
@@ -174,10 +174,11 @@ public class PacienteServiceTest {
 
         // Simulações dos repositórios
         when(repo.findById(paciente1.getId())).thenReturn(Optional.of(paciente1));
+        when(quarto_repo.findById(pacienteAtualizado.getQuarto().getId())).thenReturn(Optional.of(pacienteAtualizado.getQuarto()));
         when(repo.save(paciente1)).thenReturn(pacienteAtualizado);
 
         // Execução do método
-        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado, quartoDisponivel);
+        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado);
 
         // Verificações
         assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
@@ -200,10 +201,11 @@ public class PacienteServiceTest {
 
         // Simulações dos repositórios
         when(repo.findById(paciente1.getId())).thenReturn(Optional.of(paciente1));
+        when(quarto_repo.findById(pacienteAtualizado.getQuarto().getId())).thenReturn(Optional.of(pacienteAtualizado.getQuarto()));
         when(repo.save(paciente1)).thenReturn(pacienteAtualizado);
 
         // Execução do método
-        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado, quartoDisponivel);
+        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado);
 
         // Verificações
         assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
@@ -211,31 +213,31 @@ public class PacienteServiceTest {
         assertEquals(quartoDisponivel, result.get().getQuarto());
     }
 
-    //teste sucesso paciente atualizado sem um quarto (ver com o Dré se esse é o comportamento que deveria acontecer)
-    // @Test
-    // @DisplayName("")
-    // public void atualizarPaciente_PacienteComQuarto_AtualizaPacienteComQuartoNovo() {
+    //teste sucesso paciente atualizado sem um quarto
+    @Test
+    @DisplayName("")
+    public void atualizarPaciente_PacienteSemQuarto_AtualizaPacienteComQuartoNovo() {
 
-    //     // Configuração inicial
-    //     paciente1.setId(1);
-    //     paciente1.setQuarto(quartoOcupado);
+        // Configuração inicial
+        paciente1.setId(1);
+        paciente1.setQuarto(quartoOcupado);
 
-    //     quartoOcupado.setPaciente(paciente1);
+        quartoOcupado.setPaciente(paciente1);
 
-    //     pacienteAtualizado.setQuarto(quartoDisponivel);
+        pacienteAtualizado.setQuarto(null);
 
-    //     // Simulações dos repositórios
-    //     when(repo.findById(paciente1.getId())).thenReturn(Optional.of(paciente1));
-    //     when(repo.save(paciente1)).thenReturn(pacienteAtualizado);
+        // Simulações dos repositórios
+        when(repo.findById(paciente1.getId())).thenReturn(Optional.of(paciente1));
+        when(repo.save(paciente1)).thenReturn(pacienteAtualizado);
 
-    //     // Execução do método
-    //     Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado, quartoDisponivel);
+        // Execução do método
+        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado);
 
-    //     // Verificações
-    //     assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
-    //     assertEquals(pacienteAtualizado, result.get()); // Verifica se o paciente atualizado é o esperado
-    //     assertEquals(quartoDisponivel, result.get().getQuarto());
-    // }
+        // Verificações
+        assertTrue(result.isPresent()); // Verifica se o Optional não está vazio
+        assertEquals(pacienteAtualizado, result.get()); // Verifica se o paciente atualizado é o esperado
+        assertEquals(null, result.get().getQuarto());
+    }
 
     //teste falha paciente_Id não cadastrado no BD
     @Test
@@ -249,7 +251,7 @@ public class PacienteServiceTest {
         when(repo.findById(paciente1.getId())).thenReturn(Optional.empty());
 
         // Execução do método
-        Optional<Paciente> result = service.atualizarPaciente(null, pacienteAtualizado, quartoDisponivel);
+        Optional<Paciente> result = service.atualizarPaciente(null, pacienteAtualizado);
 
         // Verificações
         assertTrue(result.isEmpty());
@@ -263,11 +265,14 @@ public class PacienteServiceTest {
         // Configuração inicial
         paciente1.setId(1);
 
+        pacienteAtualizado.setQuarto(quartoOcupado);
+
         // Simulações dos repositórios
         when(repo.findById(paciente1.getId())).thenReturn(Optional.of(paciente1));
+        when(quarto_repo.findById(pacienteAtualizado.getQuarto().getId())).thenReturn(Optional.of(pacienteAtualizado.getQuarto()));
 
         // Execução do método
-        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado, quartoOcupado);
+        Optional<Paciente> result = service.atualizarPaciente(1, pacienteAtualizado);
 
         // Verificações
         assertTrue(result.isEmpty());
