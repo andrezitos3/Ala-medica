@@ -55,7 +55,7 @@ public class PacienteService {
     }
 
     // put: atualizar os dados do paciente, com possibilidade de troca de quarto
-    public Optional<Paciente> atualizarPaciente(Integer id, Paciente paciente_atualizado, Quarto novo_quarto) {
+    public Optional<Paciente> atualizarPaciente(Integer id, Paciente paciente_atualizado) {
 
         Optional<Paciente> paciente_optional = repo.findById(id);
 
@@ -76,25 +76,40 @@ public class PacienteService {
         // regra de verificação de troca de quarto, se necessário (se o usuário quer
         // mudar o paciente de quarto na requisição)
 
-        if (novo_quarto != null) {
+        if (paciente_atualizado.getQuarto() != null) {
 
-            // ve se o quarto solicitado já possui um paciente ou não (se o quarto está
-            // ocupado)
-            if (novo_quarto.getPaciente() != null) {
+            Optional<Quarto> quarto_optional = quarto_repo.findById(paciente_atualizado.getQuarto().getId());
 
+            if (quarto_optional.isEmpty()) {
                 return Optional.empty();
             }
 
-            // desassocia o paciente do quarto antigo se ele existir, altera o quarto para
-            // vazio e salva ele no banco de dados
+            Quarto quarto_solicitado = quarto_optional.get();
+
+            if (quarto_solicitado.getPaciente() != null) {
+                return Optional.empty();
+            }
+
+            // Desassocia o paciente do quarto antigo (se houver)
             if (paciente_existente.getQuarto() != null) {
                 Quarto quarto_antigo = paciente_existente.getQuarto();
                 quarto_antigo.setPaciente(null);
                 quarto_repo.save(quarto_antigo);
             }
-            // associar o novo quarto ao paciente
-            novo_quarto.setPaciente(paciente_existente);
-            paciente_existente.setQuarto(novo_quarto);
+
+            // Associa o novo quarto ao paciente
+            quarto_solicitado.setPaciente(paciente_existente);
+            paciente_existente.setQuarto(quarto_solicitado);
+
+        } else {
+            // Desassocia o paciente do quarto antigo (se houver)
+            if (paciente_existente.getQuarto() != null) {
+                Quarto quarto_antigo = paciente_existente.getQuarto();
+                quarto_antigo.setPaciente(null);
+                quarto_repo.save(quarto_antigo);
+            }
+             // Se o paciente atualizado não tem quarto, remove a associação no paciente existente
+            paciente_existente.setQuarto(null);
         }
         // atualiza os dados do paciente com sucesso
         return Optional.of(repo.save(paciente_existente));

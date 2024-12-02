@@ -105,7 +105,7 @@ public class PacienteController {
             paciente_atualizado.setInternado(true);
         }
 
-        Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, paciente_atualizado, novo_quarto);
+        Optional<Paciente> optionalPaciente = service.atualizarPaciente(id, paciente_atualizado);
         
         if (optionalPaciente.isEmpty()){
             return ResponseEntity.badRequest().build();
