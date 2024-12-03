@@ -84,6 +84,10 @@ public class QuartoService {
 
             if (alaMedica_optional.isPresent()){
 
+                if (alaMedica_optional.get().getQuartos().size() >= 5){
+                    return Optional.empty(); // nao pode ter mais de 5 quartos
+                }
+
                 quarto_existente.setAlaMedica(alaMedica_optional.get());
 
             } else {
@@ -159,7 +163,7 @@ public class QuartoService {
 
         if (quarto.getAlaMedica() != null){
 
-            return false; // quarto ainda associado a uma ala médica
+            quarto.setAlaMedica(null); // quarto ainda associado a uma ala médica
         }
 
         repo.deleteById(id);
