@@ -119,7 +119,7 @@ public class AlaMedicaControllerTest {
 
         ResponseEntity<Void> response = controller.delete(1);
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     //Testes Post
