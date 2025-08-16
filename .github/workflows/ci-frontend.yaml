@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  ci:
+  ci_build_angular:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: ./FrontEnd/package-lock.json
 
     # Instala dependências
     - name: Install dependencies
