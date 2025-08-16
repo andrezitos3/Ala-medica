@@ -1,14 +1,24 @@
-FROM maven:3.9-eclipse-temurin-17
+# Etapa 1: build
+FROM maven:3.9-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copia todo o projeto (pasta alamedica) para dentro do container
-COPY alamedica ./alamedica
+# Copia pom.xml e baixa dependências para cache
+COPY BackEnd/pom.xml ./BackEnd/
+RUN mvn -f ./BackEnd/pom.xml dependency:go-offline
 
-# Compila e empacota o app usando o pom.xml dentro de alamedica
-RUN mvn -f ./alamedica/pom.xml clean package
+# Copia o código fonte e compila
+COPY BackEnd ./BackEnd
+RUN mvn -f ./BackEnd/pom.xml clean package -DskipTests
+
+# Etapa 2: runtime
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+# Copia apenas o JAR do estágio anterior
+COPY --from=builder /app/BackEnd/target/*.jar app.jar
 
 EXPOSE 8080
 
-# Roda o jar automaticamente, sem precisar saber o nome
-CMD java -jar $(find alamedica/target -name "*.jar" | head -n 1)
+ENTRYPOINT ["java", "-jar", "app.jar"]
