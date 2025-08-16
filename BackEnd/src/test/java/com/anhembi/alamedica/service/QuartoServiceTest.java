@@ -62,7 +62,7 @@ public class QuartoServiceTest {
         quarto2 = new Quarto();
     }
 
-    //Teste getAllPacientes()
+    // Teste getAllPacientes()
     @Test
     @DisplayName("Deve retornar todos os pacientes cadastrados")
     public void retornarTodosPacientes_RetornaTodosPacientes() {
@@ -78,7 +78,7 @@ public class QuartoServiceTest {
         assertEquals(quarto2, result.get(1));
     }
 
-    //Teste getById()
+    // Teste getById()
     @Test
     @DisplayName("Deve retornar o paciente especificado pelo Id")
     public void retornarEnfermeiroPorId_RetornaEnfermeiroPorId() {
@@ -90,8 +90,8 @@ public class QuartoServiceTest {
         assertEquals(quarto1, response.get());
     }
 
-    //Testes Post
-    //teste sucesso cria quarto
+    // Testes Post
+    // teste sucesso cria quarto
     @Test
     @DisplayName("Deve criar um quarto com sucesso")
     public void criarQuarto_DadosValidos_CriaQuarto() {
@@ -116,7 +116,7 @@ public class QuartoServiceTest {
         assertEquals(quarto1, result.get());
     }
 
-    //teste falha quarto_id ja existe
+    // teste falha quarto_id ja existe
     @Test
     @DisplayName("Deve verificar se o Id do quarto não existe")
     public void criarQuarto_QuartoIdInvalido_RetornaOptionalEmpty() {
@@ -131,7 +131,7 @@ public class QuartoServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    //teste falha numero do quarto ja existe
+    // teste falha numero do quarto ja existe
     @Test
     @DisplayName("Deve criar um quarto com sucesso")
     public void criarQuarto_NumeroQuartoJaExiste_RetornaOptionalEmpty() {
@@ -149,7 +149,7 @@ public class QuartoServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    //teste falha ala medica null
+    // teste falha ala medica null
     @Test
     @DisplayName("Deve criar um quarto com sucesso")
     public void criarQuarto_AlaMedicaNull_RetornaOptionalEmpty() {
@@ -170,7 +170,7 @@ public class QuartoServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    //teste falha ala medica invalida
+    // teste falha ala medica invalida
     @Test
     @DisplayName("Deve criar um quarto com sucesso")
     public void criarQuarto_AlaMedicaInexistente_RetornaOptionalEmpty() {
@@ -193,7 +193,7 @@ public class QuartoServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    //teste falha quarto não existe
+    // teste falha quarto não existe
     @Test
     @DisplayName("Deve verificar se o quarto existe no BD")
     public void editarQuarto_QuartoInexistente_RetornaOptionalEmpty() {
@@ -206,12 +206,12 @@ public class QuartoServiceTest {
 
         // Execução do método
         Optional<Quarto> result = service.atualizarQuarto(null, quartoAtualizado);
-        
+
         // Verificações
         assertTrue(result.isEmpty());
     }
 
-    //teste falha quarto não tem numero unico
+    // teste falha quarto não tem numero unico
     @Test
     @DisplayName("Deve verificar se o número do quarto ja não esta cadastrado no BD")
     public void editarQuarto_QuartoNumeroInvalido_RetornaOptionalEmpty() {
@@ -228,12 +228,12 @@ public class QuartoServiceTest {
 
         // Execução do método
         Optional<Quarto> result = service.atualizarQuarto(1, quartoAtualizado);
-        
+
         // Verificações
         assertTrue(result.isEmpty());
     }
 
-    //Testes Delete
+    // Testes Delete
     @Test
     @DisplayName("Deve retornar falso ao tentar deletar um quarto inexistente")
     public void deletarQuarto_QuartoInexistente_RetornaFalse() {
@@ -286,3 +286,4 @@ public class QuartoServiceTest {
         assertTrue(resultado, "Deve retornar verdadeiro se o quarto for deletado com sucesso.");
         verify(repo).deleteById(1);
     }
+}
