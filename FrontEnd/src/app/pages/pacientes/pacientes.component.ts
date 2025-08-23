@@ -15,7 +15,11 @@ interface Paciente {
   templateUrl: './pacientes.component.html',
   styleUrls: ['./pacientes.component.scss']
 })
+
 export class PacientesComponent {
+  
+  andar = 'Todos';
+
   pacientes: Paciente[] = [
     {
       nome: 'Eddie Chen',

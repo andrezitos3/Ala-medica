@@ -1,28 +1,35 @@
 <h2>Detalhes <b>Pacientes</b></h2>
 
+<div class="filtro">
+	<button>
+		<span><strong>Andar:</strong></span>
+		<span>{{ andar }}</span>
+	</button>
+</div>
+
 <table class="pacientes-table">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>ID</th>
-      <th>Internação</th>
-      <th>Nascimento</th>
-      <th>Enfermidade</th>
-      <th>Alergia</th>
-      <th>Quarto</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let p of pacientes">
-      <td>{{ p.nome }}</td>
-      <td>{{ p.id }}</td>
-      <td>
-        <span [class.badge-green]="p.internacao" [class.badge-red]="!p.internacao"></span>
-      </td>
-      <td>{{ p.nascimento }}</td>
-      <td>{{ p.enfermidade }}</td>
-      <td>{{ p.alergia }}</td>
-      <td>{{ p.quarto }}</td>
-    </tr>
-  </tbody>
+	<thead>
+		<tr>
+			<th>Nome</th>
+			<th>ID</th>
+			<th>Internação</th>
+			<th>Nascimento</th>
+			<th>Enfermidade</th>
+			<th>Alergia</th>
+			<th>Quarto</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let p of pacientes">
+			<td>{{ p.nome }}</td>
+			<td>{{ p.id }}</td>
+			<td>
+				<span [class.badge-green]="p.internacao" [class.badge-red]="!p.internacao"></span>
+			</td>
+			<td>{{ p.nascimento }}</td>
+			<td>{{ p.enfermidade }}</td>
+			<td>{{ p.alergia }}</td>
+			<td>{{ p.quarto }}</td>
+		</tr>
+	</tbody>
 </table>

@@ -22,3 +22,34 @@
 
 .badge-green { background: #22c55e; }
 .badge-red { background: #ef4444; }
+
+.filtro {
+  display: flex;
+  flex-direction: column;   /* mantém coluna se precisar */
+  align-items: flex-end;  /* ✅ alinha o botão à ESQUERDA do container */
+  padding: 20px;
+
+  button {
+    /* tamanho – escolha uma das opções abaixo */
+    /* width: 100%; */          /* ocupa toda a largura do container */
+    width: 240px;               /* OU largura fixa */
+    min-height: 40px;
+
+    background-color: #CDDAFF;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+
+    display: inline-flex;       /* ✅ flex para alinhar conteúdo interno */
+    justify-content: flex-start;/* ✅ itens colados à esquerda dentro do botão */
+    align-items: center;        /* centraliza verticalmente */
+
+    /* ✅ deixe o texto encostar mesmo */
+    padding-left: 6px;            /* 0 = encostado; mude para 8px se quiser um respiro */
+    padding-right: 12px;
+
+    gap: 8px;                   /* espaço entre "Andar:" e o número */
+    /* opcional: text-align não afeta flex-items, mas não atrapalha */
+    text-align: left;
+  }
+}
