@@ -1,27 +1,69 @@
+/* Sidebar principal */
 .sidebar {
-  width: 200px;
-  background: #fff;
-  border-right: 1px solid #ddd;
-  padding: 20px;
+  width: 90px; /* largura fixa da sidebar */
+  height: 100vh; /* ocupa altura toda */
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 0 20px 20px 0; /* canto arredondado na direita */
 }
 
+/* Logo */
 .sidebar .logo {
-  font-size: 24px;
-  margin-bottom: 30px;
-  color: #5a67d8;
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-bottom: 50px;
 }
 
+/* Lista */
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
+/* Itens da lista */
 .sidebar ul li {
-  margin: 15px 0;
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
+/* Links */
 .sidebar ul li a {
+  display: flex;
+  flex-direction: column; /* ícone em cima, texto embaixo */
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
+  font-size: 13px;
+  color: #999;
+  padding: 12px 0;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Ícones */
+.sidebar ul li a img {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+}
+
+/* Hover */
+.sidebar ul li a:hover {
+  background-color: #f0f4ff;
+  color: #4a6cf7;
+}
+
+/* Ativo */
+.sidebar ul li a.active {
+  background-color: #e8f0ff;
+  color: #4a6cf7;
+  font-weight: bold;
 }
