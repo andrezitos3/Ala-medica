@@ -17,7 +17,7 @@ on:
 
 jobs:
   
-  ci:
+  ci_build_java:
 
     runs-on: ubuntu-latest
 
