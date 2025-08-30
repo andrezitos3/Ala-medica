@@ -1,0 +1,22 @@
+{
+  "pacientes": [
+    {
+        "id": 1, 
+        "nome": "Eddie Chen", 
+        "internacao": false,
+        "nascimento": "02/07/2002",
+        "enfermidade": "Dores Intestinais",
+        "alergia": "Rivotril",
+        "quarto": "01-102" 
+    },
+    { 
+        "id": 2, 
+        "nome": "Lurdes Gomes", 
+        "internacao": true, 
+        "nascimento": "27/02/1890",
+        "enfermidade": "Osteoporose",
+        "alergia": "Monoclorreto de Sódio",
+        "quarto": "07-705" 
+    }
+  ]
+}
