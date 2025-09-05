@@ -16,14 +16,12 @@ on:
           - 'false'
           - 'true'
 
-env:
-  OWNERS: '["andrezitos3", "LeonardoOziro"]'
 
 jobs:
 
   build-and-test:
     runs-on: server01
-    if: github.event_name != 'workflow_dispatch' || contains(fromJson(env.OWNERS), github.actor)
+    if: github.event_name != 'workflow_dispatch' || contains(fromJson('["andrezitos3","LeonardoOziro"]'), github.actor)
     steps:
       - uses: actions/checkout@v4
 
