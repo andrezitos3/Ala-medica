@@ -1,20 +1,27 @@
-# Etapa 1: build
-FROM maven:3.9-eclipse-temurin-17 AS builder
+# ===== Builder: Maven + Java 17 =====
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /workspace
 
-WORKDIR /app
+# Copia arquivos mínimos primeiro
+COPY BackEnd/pom.xml BackEnd/mvnw BackEnd/.mvn/ ./BackEnd/
+RUN chmod +x BackEnd/mvnw || true
 
-# Copia o código fonte e compila
-COPY BackEnd ./BackEnd
-RUN mvn -f ./BackEnd/pom.xml clean package -DskipTests
+# Baixa dependências sem cache
+RUN cd BackEnd && ./mvnw -B -DskipTests dependency:go-offline
 
-# Etapa 2: runtime
-FROM eclipse-temurin:17-jdk
+# Copia o código e faz o build
+COPY BackEnd/src ./BackEnd/src
+RUN cd BackEnd && ./mvnw -B -DskipTests package
 
-WORKDIR /app
-
-# Copia apenas o JAR do estágio anterior
-COPY --from=builder /app/BackEnd/target/*.jar app.jar
+# ===== Runtime: Distroless Java 17 =====
+FROM gcr.io/distroless/java17-debian12:nonroot AS runtime
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+WORKDIR /app
+
+COPY --from=build /workspace/BackEnd/target/*-SNAPSHOT.jar /app/app.jar
+
+USER 65532
+
+ENTRYPOINT ["java","-jar","/app/app.jar"]
