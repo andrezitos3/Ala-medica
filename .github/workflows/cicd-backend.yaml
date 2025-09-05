@@ -44,6 +44,12 @@ jobs:
         run: mvn clean install
         working-directory: ./BackEnd
 
+      - name: Limpando artefatos e dependências 🧼
+        shell: powershell
+        run: |
+            Remove-Item -Recurse -Force "${{ github.workspace }}\BackEnd\target"
+            Remove-Item -Recurse -Force "$env:USERPROFILE\.m2\repository"
+
   sonarqube-gate:
     runs-on: server01
     needs: build-and-test
@@ -55,18 +61,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: SonarQube Scan  🔍
+      - name: SonarQube Scan 🔍
+        working-directory: ./BackEnd
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT: ${{ secrets.SONAR_PROJECT_KEY }}
-          ORG: ${{ secrets.SONAR_ORG_KEY }}
-
-        run: mvn sonar:sonar \
-            -Dsonar.projectKey=${SONAR_PROJECT} \
-            -Dsonar.organization=${ORG} \
+        run: |
+            mvn verify sonar:sonar \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }} \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${SONAR_TOKEN}
-        working-directory: ./BackEnd
+
+
 
   docker-build:
     runs-on: server01
