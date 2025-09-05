@@ -34,11 +34,11 @@ jobs:
       working-directory: ./FrontEnd
     
     - name: Limpando artefatos e dependências 🧼
+      shell: powershell
       run: |
           Remove-Item -Recurse -Force "${{ github.workspace }}\FrontEnd\dist"
           Remove-Item -Recurse -Force "${{ github.workspace }}\FrontEnd\node_modules"
           
-      shell: pwsh
 
 
     # testes unitários (ver depois)

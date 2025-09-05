@@ -45,10 +45,10 @@ jobs:
         working-directory: ./BackEnd
 
       - name: Limpando artefatos e dependências 🧼
+        shell: powershell
         run: |
             Remove-Item -Recurse -Force "${{ github.workspace }}\BackEnd\target"
             Remove-Item -Recurse -Force "$env:USERPROFILE\.m2\repository"
-        shell: pwsh
 
   sonarqube-gate:
     runs-on: server01
