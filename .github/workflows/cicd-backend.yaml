@@ -116,7 +116,7 @@ jobs:
 
   deploy:
     runs-on: server01
-    needs: docker-push
+    needs: docker-push-and-clean
     if: ${{ github.event.inputs.deploy == 'true' }}
     steps:
       - name: Deploy to cluster ☸️
