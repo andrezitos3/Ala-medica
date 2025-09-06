@@ -9,6 +9,7 @@ import { PacientesComponent } from './pages/pacientes/pacientes.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { CommonModule } from '@angular/common';
 import { EditarComponent } from './pages/editar/editar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EditarComponent } from './pages/editar/editar.component';
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
