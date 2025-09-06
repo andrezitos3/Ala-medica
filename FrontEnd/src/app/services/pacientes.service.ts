@@ -28,4 +28,8 @@ export class PacientesService {
   getPaciente(id: number): Observable<Paciente> {
     return this.httpClient.get<Paciente>(`${this.apiUrl}/${id}`)
   }
+
+  addPaciente(paciente: Omit<Paciente, 'id'>) {
+    return this.httpClient.post(this.apiUrl, paciente)
+  }
 }

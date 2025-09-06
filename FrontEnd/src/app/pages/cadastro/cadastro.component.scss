@@ -35,8 +35,16 @@
 
 .form-row {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 15px;
   margin-bottom: 15px;
+}
+
+.form-row-codigo {
+  display: flex;
+  // flex-direction: row-reverse;
+  gap: 15px;
 }
 
 .form-group label {
@@ -163,4 +171,8 @@ input:checked + .slider:before {
 
 .btn-salvar:hover {
   background: #3a59d9;
+}
+
+.error {
+  color: red;
 }
