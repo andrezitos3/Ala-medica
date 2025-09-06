@@ -70,6 +70,7 @@ jobs:
           SONAR_ORG_KEY: ${{ secrets.SONAR_ORG_KEY }}
 
         run: |
+          export PATH="/c/Program Files/Git/bin:$PATH"
           mvn verify sonar:sonar \
           -Dsonar.projectKey=$SONAR_PROJECT_KEY \
           -Dsonar.organization=$SONAR_ORG_KEY \
