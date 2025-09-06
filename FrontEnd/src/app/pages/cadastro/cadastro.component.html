@@ -4,13 +4,10 @@
 
     <form [formGroup]="cadastroForm" (ngSubmit)="salvar()">
 
-      <div class="form-row">
+      <div class="form-row-codigo">
         <div class="form-group">
-          <button type="button" class="codigo-btn">+ Código</button>
-        </div>
-        <div class="form-group">
-          <label for="codigo">Código</label>
-          <input type="text" id="codigo" formControlName="codigo" readonly />
+          <label for="id">Código</label>
+          <input type="text" id="id" formControlName="id"/>
         </div>
       </div>
 
@@ -47,10 +44,15 @@
           <span class="switch-label">ativado</span>
         </div>
       </div>
+      
+      <div class="form-group">
+        <label for="quarto">Quarto</label>
+        <input type id="quarto" formControlName="quarto">
+      </div>
 
       <div class="form-group">
-        <label for="doenca">Enfermidade</label>
-        <textarea id="doenca" formControlName="doenca"></textarea>
+        <label for="enfermidade">Enfermidade</label>
+        <input id="enfermidade" formControlName="enfermidade">
       </div>
 
       <div class="form-group">
