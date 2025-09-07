@@ -62,7 +62,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Verificando projeto e gerando arquivos para análise 🤔
-        run: mvn verify sonar:sonar
+        run: mvn verify
         working-directory: ./BackEnd
 
       - name: SonarCloud Scan 🔍
