@@ -60,6 +60,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      
+      - name: Verificando projeto e gerando arquivos para análise 🤔
+        run: mvn verify sonar:sonar
 
       - name: SonarCloud Scan 🔍
         uses: SonarSource/sonarcloud-github-action@v2
