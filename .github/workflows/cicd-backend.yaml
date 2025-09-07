@@ -72,10 +72,9 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}
             -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.java.binaries=BackEnd/target/classes
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
 
 
   docker-build:
