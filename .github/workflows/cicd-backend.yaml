@@ -63,6 +63,7 @@ jobs:
       
       - name: Verificando projeto e gerando arquivos para análise 🤔
         run: mvn verify sonar:sonar
+        working-directory: ./BackEnd
 
       - name: SonarCloud Scan 🔍
         uses: SonarSource/sonarcloud-github-action@v2
