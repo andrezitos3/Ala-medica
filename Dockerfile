@@ -8,11 +8,11 @@ COPY BackEnd/pom.xml BackEnd/mvnw ./BackEnd/
 RUN chmod +x BackEnd/mvnw || true
 
 # Baixa dependências sem cache
-RUN cd BackEnd && ./mvnw -B -DskipTests dependency:go-offline
+RUN cd BackEnd && mvn -B -DskipTests dependency:go-offline
 
 # Copia o código e faz o build
 COPY BackEnd/src ./BackEnd/src
-RUN cd BackEnd && ./mvnw -B -DskipTests package
+RUN cd BackEnd && mvn -B -DskipTests package
 
 # ===== Runtime: Distroless Java 17 =====
 FROM gcr.io/distroless/java17-debian12:nonroot AS runtime
