@@ -3,7 +3,8 @@ FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /workspace
 
 # Copia arquivos mínimos primeiro
-COPY BackEnd/pom.xml BackEnd/mvnw BackEnd/.mvn/ ./BackEnd/
+COPY BackEnd/pom.xml BackEnd/mvnw ./BackEnd/
+
 RUN chmod +x BackEnd/mvnw || true
 
 # Baixa dependências sem cache
