@@ -96,7 +96,7 @@ jobs:
     runs-on: server01
     needs: docker-build
     steps:
-      - uses: aquasecurity/trivy-action@v0.29.0
+      - uses: aquasecurity/trivy-action@v0.33.1
         with:
           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/{{ secrets.DOCKERHUB_REPO }}:latest
           format: 'table'
@@ -121,8 +121,7 @@ jobs:
       
       - name: Limpando a imagem do servidor 🧹
         run: |
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
+            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
 
   deploy:
     runs-on: server01
