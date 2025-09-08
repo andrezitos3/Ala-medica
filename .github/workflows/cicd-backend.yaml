@@ -62,7 +62,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Verificando projeto e gerando arquivos para análise 🤔
-        run: mvn verify
+        run: mvn clean verify
         working-directory: ./BackEnd
 
       - name: SonarCloud Scan 🔍
@@ -72,7 +72,11 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}
             -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=BackEnd/src/main/java
+            -Dsonar.tests=BackEnd/src/test/java
             -Dsonar.java.binaries=BackEnd/target/classes
+            -Dsonar.junit.reportPaths=BackEnd/target/surefire-reports
+            -Dsonar.coverage.jacoco.xmlReportPaths=BackEnd/target/site/jacoco/jacoco.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -85,7 +89,7 @@ jobs:
 
       - name: Build Docker image 🐳
 
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }} .
 
 
   trivy-scan-imagem:
