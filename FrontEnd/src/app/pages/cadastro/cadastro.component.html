@@ -1,0 +1,69 @@
+<div class="cadastro-container">
+  <div class="form-card">
+    <h2>Cadastro Pacientes</h2>
+
+    <form [formGroup]="cadastroForm" (ngSubmit)="salvar()">
+
+      <div class="form-row-codigo">
+        <div class="form-group">
+          <label for="id">Código</label>
+          <input type="text" id="id" formControlName="id"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" formControlName="nome"/>
+        <small *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched" class="error">
+          Nome é obrigatório.
+        </small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nascimento">Data de nascimento</label>
+          <input type="date" id="nascimento" formControlName="nascimento"/>
+        </div>
+
+        <div class="form-group">
+          <label for="andar">Andar</label>
+          <select id="andar" formControlName="andar">
+            <option value="">Selecione</option>
+            <option>1º andar</option>
+            <option>2º andar</option>
+            <option>3º andar</option>
+          </select>
+        </div>
+
+        <div class="form-group switch-group">
+          <label>Internação</label>
+          <label class="switch">
+            <input type="checkbox" formControlName="internacao"/>
+            <span class="slider"></span>
+          </label>
+          <span class="switch-label">ativado</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="quarto">Quarto</label>
+        <input type id="quarto" formControlName="quarto">
+      </div>
+
+      <div class="form-group">
+        <label for="enfermidade">Enfermidade</label>
+        <input id="enfermidade" formControlName="enfermidade">
+      </div>
+
+      <div class="form-group">
+        <label for="alergia">Alergias</label>
+        <input type="text" id="alergia" formControlName="alergia"/>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
